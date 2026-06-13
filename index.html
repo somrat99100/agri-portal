@@ -142,24 +142,6 @@ input:focus{border-color:#3B6D11;background:#fff;}
 /* ── FOOTER ── */
 .footer{text-align:center;padding:1.5rem 1rem;font-size:12px;color:#9B9B96;border-top:1px solid #E0E0DA;background:#fff;margin-top:2rem;}
 .footer a{color:#3B6D11;text-decoration:none;}
-
-/* ── LOCK GATE ── */
-.lock-ico{font-size:10px;margin-right:3px;}
-.tab-btn.locked{color:#B0B0AA;}
-.lock-card{background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;padding:24px 18px;text-align:center;}
-.lock-card .lk-emoji{font-size:34px;margin-bottom:8px;}
-.lock-card h3{font-size:16px;font-weight:700;color:#92400E;margin-bottom:6px;}
-.lock-card p{font-size:13px;color:#78350F;line-height:1.5;margin-bottom:14px;}
-.lock-card input{max-width:100%;}
-.lock-card .s-btn{background:#92400E;}
-.lock-card .s-btn:active{background:#78350F;}
-#unlock-msg{margin-top:10px;font-size:13px;}
-.unlock-ok{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D;border-radius:9px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;flex-wrap:wrap;}
-.unlock-ok .lk-relock{background:transparent;border:none;color:#3B6D11;text-decoration:underline;font-size:12px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
-.locked-view{display:none;}
-.locked-view.show{display:block;}
-.unlocked-content{display:none;}
-.unlocked-content.show{display:block;}
 </style>
 </head>
 <body>
@@ -194,9 +176,9 @@ input:focus{border-color:#3B6D11;background:#fff;}
 
   <nav class="tab-nav">
     <button class="tab-btn active"  onclick="showTab(this,'dashboard')">Dashboard</button>
-    <button class="tab-btn" id="nav-top20"   onclick="showTab(this,'top20')"><span class="lock-ico" id="lk-top20">&#128274;</span>Top 20</button>
-    <button class="tab-btn" id="nav-search"  onclick="showTab(this,'search')"><span class="lock-ico" id="lk-search">&#128274;</span>My Position</button>
-    <button class="tab-btn" id="nav-batches" onclick="showTab(this,'batches')"><span class="lock-ico" id="lk-batches">&#128274;</span>Batch Top 10</button>
+    <button class="tab-btn"         onclick="showTab(this,'top20')">Top 20</button>
+    <button class="tab-btn"         onclick="showTab(this,'search')">Check Your Position</button>
+    <button class="tab-btn"         onclick="showTab(this,'batches')">Top 10 in Each Batch</button>
   </nav>
 
   <main class="main">
@@ -206,60 +188,33 @@ input:focus{border-color:#3B6D11;background:#fff;}
       <div class="stat-grid" id="stat-grid"></div>
       <p class="sec-lbl">CGPA Distribution</p>
       <div class="card" id="dist-chart"></div>
-
-      <!-- Unlock gate (shown on dashboard until verified) -->
-      <div class="locked-view" id="dash-lock">
-        <p class="sec-lbl">Unlock Full Access</p>
-        <div id="lock-card-dash"></div>
-      </div>
-      <div class="unlocked-content" id="dash-unlocked">
-        <div class="unlock-ok">
-          <span>&#9989; Unlocked as <strong id="unlocked-name"></strong></span>
-          <button class="lk-relock" onclick="relock()">Use a different ID</button>
-        </div>
-      </div>
     </div>
 
     <div id="tab-top20" class="tab-view">
       <p class="sec-lbl">Top 20 Students &#8212; All Batches</p>
-      <div class="locked-view" id="top20-lock">
-        <div id="lock-card-top20"></div>
-      </div>
-      <div class="unlocked-content" id="top20-unlocked">
-        <div class="card" id="lb-top20"></div>
-      </div>
+      <div class="card" id="lb-top20"></div>
     </div>
 
     <div id="tab-search" class="tab-view">
       <p class="sec-lbl">Check Your Position</p>
-      <div class="locked-view" id="search-lock">
-        <div id="lock-card-search"></div>
-      </div>
-      <div class="unlocked-content" id="search-unlocked">
-        <div class="card">
-          <div class="s-card-wrap">
-            <p class="s-intro">Enter your Student ID and the email you used during registration.</p>
-            <label class="f-lbl">Student ID</label>
-            <input type="text"  id="inp-id"    placeholder="e.g. 24209150" autocomplete="off">
-            <label class="f-lbl">Email Address</label>
-            <input type="email" id="inp-email" placeholder="your.email@example.com" autocomplete="off">
-            <button class="s-btn" id="s-btn" onclick="doSearch()">Search Result</button>
-            <div id="s-msg"></div>
-          </div>
+      <div class="card">
+        <div class="s-card-wrap">
+          <p class="s-intro">Enter your Student ID and the email you used during registration.</p>
+          <label class="f-lbl">Student ID</label>
+          <input type="text"  id="inp-id"    placeholder="e.g. 24209150" autocomplete="off">
+          <label class="f-lbl">Email Address</label>
+          <input type="email" id="inp-email" placeholder="your.email@example.com" autocomplete="off">
+          <button class="s-btn" id="s-btn" onclick="doSearch()">Search Result</button>
+          <div id="s-msg"></div>
         </div>
-        <div id="result-card"></div>
       </div>
+      <div id="result-card"></div>
     </div>
 
     <div id="tab-batches" class="tab-view">
       <p class="sec-lbl">Top 10 in Each Batch</p>
-      <div class="locked-view" id="batches-lock">
-        <div id="lock-card-batches"></div>
-      </div>
-      <div class="unlocked-content" id="batches-unlocked">
-        <div class="b-tabs" id="b-tabs"></div>
-        <div id="b-panels"></div>
-      </div>
+      <div class="b-tabs" id="b-tabs"></div>
+      <div id="b-panels"></div>
     </div>
 
   </main>
@@ -346,8 +301,6 @@ function renderAll() {
   renderDist(DATA.dist);
   renderTop20(DATA.top20, DATA.stats.approved);
   renderBatches(DATA.batchTops);
-  renderLockCards();
-  applyLockState();
 }
 
 // ── STATS ─────────────────────────────────────────────────────
@@ -533,111 +486,6 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── LOCK / UNLOCK GATE ──────────────────────────────────────────
-var LOCK_KEY = 'agri_unlock_v1';
-
-function lockCardHTML(prefix) {
-  return '<div class="lock-card">'+
-      '<div class="lk-emoji">&#128274;</div>'+
-      '<h3>Unlock Full Access</h3>'+
-      '<p>Enter your registered Student ID and email to unlock Top 20, My Position, and Batch Rankings.</p>'+
-      '<label class="f-lbl" style="text-align:left">Student ID</label>'+
-      '<input type="text"  id="unlk-id-'+prefix+'"    placeholder="e.g. 24209150" autocomplete="off">'+
-      '<label class="f-lbl" style="text-align:left">Email Address</label>'+
-      '<input type="email" id="unlk-email-'+prefix+'" placeholder="your.email@example.com" autocomplete="off">'+
-      '<button class="s-btn" id="unlk-btn-'+prefix+'" onclick="doUnlock(\''+prefix+'\')">Unlock</button>'+
-      '<div id="unlk-msg-'+prefix+'"></div>'+
-    '</div>';
-}
-
-function renderLockCards() {
-  ['dash','top20','search','batches'].forEach(function(p) {
-    var el = document.getElementById('lock-card-'+p);
-    if (el) el.innerHTML = lockCardHTML(p);
-    // Enter key support
-    ['id','email'].forEach(function(f) {
-      var inp = document.getElementById('unlk-'+f+'-'+p);
-      if (inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter') doUnlock(p); });
-    });
-  });
-}
-
-function doUnlock(prefix) {
-  var sid   = document.getElementById('unlk-id-'+prefix).value.trim();
-  var email = document.getElementById('unlk-email-'+prefix).value.trim();
-  var msg   = document.getElementById('unlk-msg-'+prefix);
-  var btn   = document.getElementById('unlk-btn-'+prefix);
-  msg.innerHTML = '';
-  if (!sid || !email) {
-    msg.innerHTML = '<div class="msg-e">Please enter both Student ID and email.</div>';
-    return;
-  }
-  btn.disabled = true; btn.textContent = 'Checking...';
-
-  fetchJSON(API+'?action=verify&id='+encodeURIComponent(sid)+'&email='+encodeURIComponent(email), function(r) {
-    btn.disabled = false; btn.textContent = 'Unlock';
-    if (!r) { msg.innerHTML='<div class="msg-e">Connection error. Please try again.</div>'; return; }
-    if (!r.valid) {
-      var msgs = {
-        not_found:   'Student ID not found. Please check your ID, or register first.',
-        wrong_email: 'Email does not match. Use the email you registered with.',
-        missing:     'Please enter both Student ID and email.'
-      };
-      msg.innerHTML = '<div class="msg-e">'+(msgs[r.reason]||'Could not verify. Please try again.')+'</div>';
-      return;
-    }
-    setUnlocked(sid, email);
-    applyLockState();
-  });
-}
-
-function setUnlocked(sid, email) {
-  try {
-    localStorage.setItem(LOCK_KEY, JSON.stringify({ sid: sid, email: email }));
-  } catch (e) {}
-}
-
-function getUnlocked() {
-  try {
-    var raw = localStorage.getItem(LOCK_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch (e) { return null; }
-}
-
-function relock() {
-  try { localStorage.removeItem(LOCK_KEY); } catch (e) {}
-  applyLockState();
-}
-
-function applyLockState() {
-  var unlocked = getUnlocked();
-  var sections = ['dash','top20','search','batches'];
-
-  sections.forEach(function(p) {
-    var lockedEl   = document.getElementById(p+'-lock');
-    var unlockedEl = document.getElementById(p+'-unlocked');
-    if (lockedEl)   lockedEl.classList.toggle('show', !unlocked);
-    if (unlockedEl) unlockedEl.classList.toggle('show', !!unlocked);
-  });
-
-  ['top20','search','batches'].forEach(function(p) {
-    var lk = document.getElementById('lk-'+p);
-    if (lk) lk.style.display = unlocked ? 'none' : 'inline';
-  });
-
-  if (unlocked) {
-    document.getElementById('unlocked-name').textContent = unlocked.sid;
-    // Prefill the My Position search box and run it automatically
-    var idEl = document.getElementById('inp-id');
-    var emEl = document.getElementById('inp-email');
-    if (idEl && emEl && !idEl.value) {
-      idEl.value = unlocked.sid;
-      emEl.value = unlocked.email;
-      doSearch();
-    }
-  }
-}
-
 // Enter key support
 document.addEventListener('DOMContentLoaded', function() {
   ['inp-id','inp-email'].forEach(function(id) {
@@ -645,7 +493,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')doSearch();});
   });
 });
-
 </script>
 </body>
 </html>
