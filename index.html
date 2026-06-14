@@ -599,10 +599,10 @@ function renderResult(r) {
 
 // HELPERS
 function perfLabel(cgpa) {
-  if (cgpa>=3.91) return {cls:'exemplary',   icon:'&#127775;', label:'Exemplary',      comment:'Exceptional achievement! You are at the pinnacle of academic excellence.'};
-  if (cgpa>=3.71) return {cls:'distinction', icon:'&#127885;', label:'Distinction',    comment:'Brilliant performance! You are among the top performers of the department.'};
-  if (cgpa>=3.50) return {cls:'commendable', icon:'&#128079;', label:'Commendable',    comment:'Great effort! A little more push will take you to the distinction level.'};
-  return                 {cls:'improve',     icon:'&#128170;', label:'Try to Improve', comment:'Keep working hard! Every effort brings you closer to your goal.'};
+  if (cgpa>=3.91) return {cls:'Outstanding',   icon:'&#127775;', label:'Outstanding',      comment:'Exceptional achievement! You are at the pinnacle of academic excellence.'};
+  if (cgpa>=3.71) return {cls:'Excellent', icon:'&#127885;', label:'Excellent',    comment:'Brilliant performance! You are among the top performers of the department.'};
+  if (cgpa>=3.50) return {cls:'Very Good', icon:'&#128079;', label:'Very Good',    comment:'Great effort! A little more push will take you to the distinction level.'};
+  return                 {cls:'Keep Improving',     icon:'&#128170;', label:'Keep Improving', comment:'Keep working hard! Every effort brings you closer to your goal.'};
 }
 
 function medal(r) {
