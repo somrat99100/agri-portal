@@ -189,7 +189,7 @@ input:focus{border-color:#3B6D11;background:#fff;}
 
   <div class="reg-bar">
     <span>&#128203; New student? Register your result for ranking</span>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScUpcsbMpAJGVQ3_dVUNbSKzW5Rnbq_p509GsxYUREoJkhpbw/viewform" target="_blank">Register Now &#8594;</a>
+    <a href="register.html" target="_blank">Register Now &#8594;</a>
   </div>
 
   <div class="hero">
@@ -228,7 +228,7 @@ input:focus{border-color:#3B6D11;background:#fff;}
           <button class="v-btn" id="v-btn" onclick="doVerify()">Verify &amp; Unlock</button>
           <div id="v-msg" class="v-msg-wrap"></div>
         </div>
-        <div class="v-register-hint">Not registered yet? <a href="https://docs.google.com/forms/d/e/1FAIpQLScUpcsbMpAJGVQ3_dVUNbSKzW5Rnbq_p509GsxYUREoJkhpbw/viewform" target="_blank">Register here</a></div>
+        <div class="v-register-hint">Not registered yet? <a href="register.html" target="_blank">Register here</a></div>
       </div>
 
       <!-- VERIFIED BANNER (shown after unlock) -->
@@ -451,7 +451,7 @@ function renderStats(s) {
   var items = [
     {l:'Total Registered',     v:s.registered,        c:''},
     {l:'Approved Students',    v:s.approved,          c:'g'},
-   {l:'CGPA to Enter Top 20', v:s.cgpaToTop20, c:'a'},
+    {l:'Pending Verification', v:s.pending,           c:'a'},
     {l:'Active Batches',       v:s.batches,           c:'b'},
     {l:'Highest CGPA',         v:s.highCGPA,          c:'g'},
     {l:'Dept. Average CGPA',   v:s.avgCGPA,           c:''},
@@ -599,10 +599,10 @@ function renderResult(r) {
 
 // HELPERS
 function perfLabel(cgpa) {
-  if (cgpa>=3.91) return {cls:'Outstanding',   icon:'&#127775;', label:'Outstanding',      comment:'Exceptional achievement! You are at the pinnacle of academic excellence.'};
-  if (cgpa>=3.71) return {cls:'Excellent', icon:'&#127885;', label:'Excellent',    comment:'Brilliant performance! You are among the top performers of the department.'};
-  if (cgpa>=3.50) return {cls:'Very Good', icon:'&#128079;', label:'Very Good',    comment:'Great effort! Push a bit more to reach the top tier!'};
-  return                 {cls:'Keep Improving',     icon:'&#128170;', label:'Keep Improving', comment:'Keep working hard! Every effort brings you closer to your goal.'};
+  if (cgpa>=3.91) return {cls:'exemplary',   icon:'&#127775;', label:'Exemplary',      comment:'Exceptional achievement! You are at the pinnacle of academic excellence.'};
+  if (cgpa>=3.71) return {cls:'distinction', icon:'&#127885;', label:'Distinction',    comment:'Brilliant performance! You are among the top performers of the department.'};
+  if (cgpa>=3.50) return {cls:'commendable', icon:'&#128079;', label:'Commendable',    comment:'Great effort! A little more push will take you to the distinction level.'};
+  return                 {cls:'improve',     icon:'&#128170;', label:'Try to Improve', comment:'Keep working hard! Every effort brings you closer to your goal.'};
 }
 
 function medal(r) {
