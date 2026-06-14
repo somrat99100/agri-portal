@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Register — Agriculture Department Ranking Portal</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F4F5F0;color:#1A1A18;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#1E3D08,#3B6D11);padding:1.25rem 1rem;}
+.header-inner{max-width:520px;margin:0 auto;display:flex;align-items:center;gap:12px;}
+.header-icon{font-size:28px;}
+.header-title{font-size:18px;font-weight:700;color:#EAF3DE;}
+.header-sub{font-size:12px;color:#97C459;}
+.back-btn{margin-left:auto;background:rgba(255,255,255,.15);color:#EAF3DE;border:1px solid rgba(255,255,255,.25);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+
+/* MAIN */
+.main{max-width:520px;margin:0 auto;padding:1.25rem .875rem 3rem;}
+
+/* NOTICE */
+.notice{background:#EAF3DE;border:1px solid #97C459;border-radius:12px;padding:12px 14px;margin-bottom:1.25rem;font-size:13px;color:#1E3D08;line-height:1.5;}
+.notice strong{font-weight:700;}
+
+/* FORM CARD */
+.form-card{background:#fff;border:1px solid #E0E0DA;border-radius:16px;overflow:hidden;}
+.form-head{background:#F4F5F0;padding:14px 18px;border-bottom:1px solid #E0E0DA;}
+.form-head-title{font-size:15px;font-weight:700;}
+.form-head-sub{font-size:12px;color:#6B6B66;margin-top:2px;}
+.form-body{padding:18px;}
+
+/* FIELDS */
+.field{margin-bottom:16px;}
+.f-lbl{display:block;font-size:12px;font-weight:600;color:#3B3B38;margin-bottom:6px;}
+.f-lbl span{color:#CC0000;margin-left:2px;}
+.f-input{width:100%;padding:12px 14px;font-size:15px;border:1.5px solid #D0D0CA;border-radius:10px;background:#FAFAF8;color:#1A1A18;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .2s;}
+.f-input:focus{border-color:#3B6D11;background:#fff;}
+.f-input.err{border-color:#DC2626;}
+.f-hint{font-size:11px;color:#9B9B96;margin-top:5px;}
+select.f-input{cursor:pointer;}
+
+/* FILE UPLOAD */
+.upload-zone{border:2px dashed #D0D0CA;border-radius:10px;padding:20px;text-align:center;cursor:pointer;background:#FAFAF8;transition:border-color .2s,background .2s;position:relative;}
+.upload-zone:hover,.upload-zone.drag{border-color:#3B6D11;background:#F0FDF4;}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.uz-icon{font-size:32px;margin-bottom:8px;}
+.uz-title{font-size:14px;font-weight:600;color:#3B3B38;margin-bottom:4px;}
+.uz-sub{font-size:12px;color:#9B9B96;}
+.upload-preview{margin-top:12px;display:none;}
+.preview-img{width:100%;max-height:200px;object-fit:contain;border-radius:8px;border:1px solid #E0E0DA;}
+.preview-name{font-size:12px;color:#6B6B66;margin-top:6px;text-align:center;}
+.remove-file{display:inline-block;margin-top:6px;font-size:12px;color:#DC2626;cursor:pointer;text-align:center;width:100%;}
+
+/* PROGRESS */
+.upload-progress{margin-top:10px;display:none;}
+.prog-bar-wrap{height:6px;background:#E0E0DA;border-radius:4px;overflow:hidden;}
+.prog-bar{height:100%;background:#3B6D11;border-radius:4px;width:0;transition:width .3s;}
+.prog-txt{font-size:12px;color:#6B6B66;margin-top:5px;text-align:center;}
+
+/* SUBMIT */
+.submit-btn{width:100%;padding:14px;background:#3B6D11;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;margin-top:6px;transition:background .2s;}
+.submit-btn:active{background:#2E5E0E;}
+.submit-btn:disabled{background:#9B9B96;cursor:not-allowed;}
+
+/* MESSAGES */
+.msg{margin-top:14px;font-size:13px;padding:12px 14px;border-radius:10px;display:none;line-height:1.5;}
+.msg.err{background:#FEE2E2;color:#7F1D1D;border:1px solid #FECACA;display:block;}
+.msg.ok{background:#F0FDF4;color:#14532D;border:1px solid #86EFAC;display:block;}
+
+/* SUCCESS SCREEN */
+#success-screen{display:none;text-align:center;padding:2rem 1rem;}
+.success-icon{font-size:64px;margin-bottom:16px;}
+.success-title{font-size:22px;font-weight:700;color:#1A1A18;margin-bottom:8px;}
+.success-sub{font-size:14px;color:#6B6B66;line-height:1.6;margin-bottom:24px;max-width:360px;margin-left:auto;margin-right:auto;}
+.success-info{background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#14532D;text-align:left;line-height:1.7;}
+.go-portal{display:inline-block;background:#3B6D11;color:#fff;padding:13px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+
+/* FOOTER */
+.footer{text-align:center;padding:1.5rem 1rem;font-size:12px;color:#9B9B96;}
+.footer a{color:#3B6D11;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-icon">&#127806;</div>
+    <div>
+      <div class="header-title">Agriculture Department</div>
+      <div class="header-sub">Result Registration</div>
+    </div>
+    <a href="index.html" class="back-btn">&#8592; Portal</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="notice">
+    <strong>&#9432; How it works:</strong> Submit your result below. After admin verification you will receive an email confirmation and your rank will appear on the portal.
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card" id="form-section">
+    <div class="form-head">
+      <div class="form-head-title">Result Registration Form</div>
+      <div class="form-head-sub">All fields are required</div>
+    </div>
+    <div class="form-body">
+
+      <div class="field">
+        <label class="f-lbl">Full Name <span>*</span></label>
+        <input class="f-input" type="text" id="f-name" placeholder="e.g. Md. Rakibul Islam" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">Student ID <span>*</span></label>
+        <input class="f-input" type="text" id="f-id" placeholder="e.g. 24209150" autocomplete="off">
+        <div class="f-hint">Write your full Student ID</div>
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">Batch <span>*</span></label>
+        <input class="f-input" type="text" id="f-batch" placeholder="e.g. 242" autocomplete="off">
+        <div class="f-hint">Write your batch number (e.g. 221, 222, 242)</div>
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">Semester <span>*</span></label>
+        <input class="f-input" type="text" id="f-semester" placeholder="e.g. 1st Semester" autocomplete="off">
+        <div class="f-hint">Write your current semester (e.g. 1st Semester, 2nd Semester)</div>
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">Email Address <span>*</span></label>
+        <input class="f-input" type="email" id="f-email" placeholder="your.email@gmail.com" autocomplete="email">
+        <div class="f-hint">You will use this email to check your rank on the portal</div>
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">CGPA <span>*</span></label>
+        <input class="f-input" type="number" id="f-cgpa" placeholder="e.g. 3.85" step="0.01" min="0" max="4.00" autocomplete="off">
+        <div class="f-hint">Write according to the updated CGPA of your semester (0.00 – 4.00)</div>
+      </div>
+
+      <div class="field">
+        <label class="f-lbl">Result Screenshot <span>*</span></label>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="f-file" accept="image/*,.pdf" onchange="onFileSelect(this)">
+          <div class="uz-icon">&#128247;</div>
+          <div class="uz-title">Tap to upload screenshot</div>
+          <div class="uz-sub">JPG, PNG or PDF &middot; Max 10MB</div>
+        </div>
+        <div class="upload-preview" id="upload-preview">
+          <img class="preview-img" id="preview-img" src="" alt="Preview">
+          <div class="preview-name" id="preview-name"></div>
+          <span class="remove-file" onclick="removeFile()">&#10005; Remove file</span>
+        </div>
+        <div class="upload-progress" id="upload-progress">
+          <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar"></div></div>
+          <div class="prog-txt" id="prog-txt">Uploading...</div>
+        </div>
+        <div class="f-hint">Upload a clear screenshot of your official result.</div>
+      </div>
+
+      <div id="form-msg" class="msg"></div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitForm()">Submit Registration</button>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">&#127881;</div>
+    <div class="success-title">Registration Submitted!</div>
+    <div class="success-sub">Your result has been submitted successfully. Please wait for admin verification. You will receive an email once approved.</div>
+    <div class="success-info" id="success-info"></div>
+    <a href="index.html" class="go-portal">&#127806; Go to Portal</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  &copy; <a href="tel:+8801753486065">@Mizan &middot; 01753-486065</a>
+</div>
+
+<script>
+var CLOUDINARY_CLOUD = 'db6r0up6r';
+var CLOUDINARY_PRESET = 'agri_portal';
+var API = 'https://script.google.com/macros/s/AKfycbxoZKLYwKNpgX3DsBLWVRrrPDk4BghJ53dcFIo06wdY06C8whH7hSFpO7ppV444RRPD/exec';
+
+var selectedFile = null;
+var uploadedUrl  = null;
+
+// FILE SELECT
+function onFileSelect(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    showMsg('File is too large. Maximum size is 10MB.', 'err');
+    return;
+  }
+  selectedFile = file;
+  uploadedUrl  = null;
+
+  // Show preview
+  var preview = document.getElementById('upload-preview');
+  var img     = document.getElementById('preview-img');
+  var name    = document.getElementById('preview-name');
+  preview.style.display = 'block';
+  name.textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+  if (file.type.indexOf('image') >= 0) {
+    var reader = new FileReader();
+    reader.onload = function(e) { img.src = e.target.result; img.style.display = 'block'; };
+    reader.readAsDataURL(file);
+  } else {
+    img.style.display = 'none';
+  }
+}
+
+function removeFile() {
+  selectedFile = null;
+  uploadedUrl  = null;
+  document.getElementById('f-file').value = '';
+  document.getElementById('upload-preview').style.display = 'none';
+  document.getElementById('upload-progress').style.display = 'none';
+  document.getElementById('preview-img').src = '';
+}
+
+// UPLOAD TO CLOUDINARY
+function uploadToCloudinary(file, onProgress, onDone, onError) {
+  var url  = 'https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/upload';
+  var fd   = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  fd.append('folder', 'agri_results');
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);
+
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) onProgress(Math.round(e.loaded / e.total * 100));
+  };
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var res = JSON.parse(xhr.responseText);
+      onDone(res.secure_url);
+    } else {
+      onError('Upload failed. Please try again.');
+    }
+  };
+
+  xhr.onerror = function() { onError('Network error during upload.'); };
+  xhr.send(fd);
+}
+
+// SUBMIT FORM
+function submitForm() {
+  var name     = document.getElementById('f-name').value.trim();
+  var id       = document.getElementById('f-id').value.trim();
+  var batch    = document.getElementById('f-batch').value.trim();
+  var semester = document.getElementById('f-semester').value.trim();
+  var email    = document.getElementById('f-email').value.trim();
+  var cgpa     = document.getElementById('f-cgpa').value.trim();
+
+  // Validate
+  if (!name)     { showMsg('Please enter your full name.', 'err'); return; }
+  if (!id)       { showMsg('Please enter your Student ID.', 'err'); return; }
+  if (!batch)    { showMsg('Please enter your batch (e.g. 242).', 'err'); return; }
+  if (!semester) { showMsg('Please enter your semester (e.g. 1st Semester).', 'err'); return; }
+  if (!email || email.indexOf('@') < 0) { showMsg('Please enter a valid email address.', 'err'); return; }
+  if (!cgpa || isNaN(parseFloat(cgpa)) || parseFloat(cgpa) < 0 || parseFloat(cgpa) > 4.00) {
+    showMsg('Please enter a valid CGPA between 0.00 and 4.00.', 'err'); return;
+  }
+  if (!selectedFile) { showMsg('Please upload your result screenshot.', 'err'); return; }
+
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Uploading screenshot...';
+  showMsg('', '');
+
+  // Show progress bar
+  var prog = document.getElementById('upload-progress');
+  var bar  = document.getElementById('prog-bar');
+  var txt  = document.getElementById('prog-txt');
+  prog.style.display = 'block';
+
+  uploadToCloudinary(
+    selectedFile,
+    function(pct) {
+      bar.style.width = pct + '%';
+      txt.textContent = 'Uploading... ' + pct + '%';
+    },
+    function(url) {
+      uploadedUrl = url;
+      bar.style.width = '100%';
+      txt.textContent = 'Upload complete! Submitting...';
+      btn.textContent = 'Submitting...';
+
+      // Send data to Google Sheet via Apps Script
+      var params = '?action=register' +
+        '&name='     + encodeURIComponent(name) +
+        '&id='       + encodeURIComponent(id) +
+        '&batch='    + encodeURIComponent(batch) +
+        '&semester=' + encodeURIComponent(semester) +
+        '&email='    + encodeURIComponent(email) +
+        '&cgpa='     + encodeURIComponent(cgpa) +
+        '&screenshot=' + encodeURIComponent(url);
+
+      fetchJSON(API + params, function(r) {
+        btn.disabled = false;
+        btn.textContent = 'Submit Registration';
+        prog.style.display = 'none';
+
+        if (r && r.ok) {
+          // Show success screen
+          document.getElementById('form-section').style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          document.getElementById('success-info').innerHTML =
+            '<strong>Name:</strong> ' + esc(name) + '<br>' +
+            '<strong>Student ID:</strong> ' + esc(id) + '<br>' +
+            '<strong>Batch:</strong> ' + esc(batch) + '<br>' +
+            '<strong>Semester:</strong> ' + esc(semester) + '<br>' +
+            '<strong>Email:</strong> ' + esc(email) + '<br>' +
+            '<strong>CGPA:</strong> ' + esc(cgpa);
+          window.scrollTo(0, 0);
+        } else {
+          showMsg(r && r.error ? r.error : 'Submission failed. Please try again.', 'err');
+        }
+      });
+    },
+    function(err) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Registration';
+      prog.style.display = 'none';
+      showMsg(err, 'err');
+    }
+  );
+}
+
+// JSONP
+function fetchJSON(url, cb) {
+  var name = 'cb_' + Date.now();
+  var script = document.createElement('script');
+  window[name] = function(data) {
+    delete window[name];
+    try { document.body.removeChild(script); } catch(e){}
+    cb(data);
+  };
+  script.onerror = function() {
+    delete window[name];
+    try { document.body.removeChild(script); } catch(e){}
+    fetch(url).then(function(r){ return r.json(); }).then(cb).catch(function(){ cb(null); });
+  };
+  script.src = url + '&callback=' + name;
+  document.body.appendChild(script);
+}
+
+function showMsg(msg, type) {
+  var el = document.getElementById('form-msg');
+  el.textContent = msg;
+  el.className = 'msg' + (type ? ' ' + type : '');
+  if (msg) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Drag and drop
+var zone = document.getElementById('upload-zone');
+zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag'); });
+zone.addEventListener('dragleave', function(){ zone.classList.remove('drag'); });
+zone.addEventListener('drop', function(e){
+  e.preventDefault(); zone.classList.remove('drag');
+  var f = e.dataTransfer.files[0];
+  if (f) { document.getElementById('f-file').files = e.dataTransfer.files; onFileSelect(document.getElementById('f-file')); }
+});
+</script>
+</body>
+</html>
