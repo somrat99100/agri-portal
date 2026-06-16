@@ -2,377 +2,433 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Study Tracker & Long-term Planner</title>
 <style>
+/* Core Palette Shared with Main Portal Architecture */
 :root {
-  --dash-bg:  #151b2b;
-  --dash-panel: #1b2438;
-  --body-bg:  #f3f4f6;
-  --card-bg:  #ffffff;
+  --primary-deep: #1E3D08;
+  --primary-mid: #3B6D11;
+  --primary-light: #EAF3DE;
+  --accent-green: #76B82A;
+  --accent-olive: #97C459;
+  --bg-base: #F4F5F0;
+  --text-main: #1A1A18;
+  --text-muted: #6B6B66;
+  --border-color: #E0E0DA;
   
-  --emerald:  #2dd4bf;
-  --emerald2: #14b8a6;
-  --blue:     #3b82f6;
-  --orange:   #f97316;
-  --yellow:   #fde047;
-  --yellow-text: #854d0e;
-  
-  --text-main: #1f2937;
-  --text-mut:  #6b7280;
-  
-  --done-bg:  #dcfce7;
-  --done-fg:  #16a34a;
-  --done-border: #86efac;
-
-  --mono: 'JetBrains Mono', monospace;
-  --sans: 'Inter', sans-serif;
+  --blue-badge: #1557B0;
+  --blue-bg: #EFF6FF;
+  --orange-accent: #92540A;
+  --orange-bg: #FFFBEB;
+  --red-accent: #991B1B;
+  --red-bg: #FEE2E2;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  font-family: var(--sans);
-  background: var(--dash-bg);
-  color: #fff;
-  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: transparent; /* Seamless iframe integration */
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── SETUP SCREEN ─── */
-#setup-screen {
-  min-height: 100vh;
+/* Page Section Labels */
+.sec-lbl {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* Unified Premium Card Matrix */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding: 20px;
+}
+
+/* Headings */
+h2, .setup-headline {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-deep);
+  margin-bottom: 6px;
+}
+.setup-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* Form Fields */
+input[type="date"], input[type="number"], input[type="text"] {
+  width: 100%;
+  padding: 11px 13px;
+  font-size: 15px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 9px;
+  background: #FAFAF8;
+  color: var(--text-main);
+  font-family: inherit;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .2s, background-color .2s;
+}
+input:focus {
+  border-color: var(--primary-mid);
+  background: #ffffff;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.field-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Preset Buttons */
+.preset-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.preset-btn {
+  padding: 6px 14px;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.preset-btn:hover { background: var(--bg-base); }
+.preset-btn.active {
+  background: var(--primary-mid);
+  border-color: var(--primary-mid);
+  color: #fff;
+}
+
+/* Category Row Elements */
+.cat-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+#category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cat-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr auto;
+  gap: 8px;
+}
+.rm-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  border: none;
+  background: var(--red-bg);
+  color: var(--red-accent);
+  cursor: pointer;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
 }
-
-.setup-shell { width: 100%; max-width: 580px; display: flex; flex-direction: column; gap: 0; }
-.setup-headline { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 6px; }
-.setup-sub { font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-bottom: 32px; line-height: 1.6; }
-
-.setup-card {
-  background: var(--dash-panel);
-  border-radius: 20px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.field-group { display: flex; flex-direction: column; gap: 8px; }
-.field-group label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.05em; }
-
-.preset-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-.preset-btn {
-  padding: 8px 14px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  font-family: var(--sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: 0.2s;
-}
-.preset-btn:hover { background: rgba(255,255,255,0.1); }
-.preset-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
-
-input[type="date"], input[type="number"], input[type="text"] {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  color: #fff;
-  width: 100%;
-  transition: 0.2s;
-  outline: none;
-  color-scheme: dark;
-}
-input:focus { border-color: var(--blue); background: rgba(59,130,246,0.1); }
-
-.divider { height: 1px; background: rgba(255,255,255,0.08); }
-
-.cat-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.cat-label-row span { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; }
-.cat-label-row .cat-count { font-family: var(--mono); color: rgba(255,255,255,0.4); }
-
-#category-list { display: flex; flex-direction: column; gap: 10px; }
-.cat-row { display: grid; grid-template-columns: 2fr 2fr 1fr auto; gap: 8px; }
-.rm-btn {
-  width: 42px; height: 42px;
-  border-radius: 10px; border: none;
-  background: rgba(239,68,68,0.15); color: #ef4444;
-  cursor: pointer; font-size: 1.1rem;
-  display: flex; align-items: center; justify-content: center; transition: 0.15s;
-}
-.rm-btn:hover { background: #ef4444; color: #fff; }
 
 .add-cat {
-  padding: 12px; border-radius: 10px;
-  border: 1px dashed rgba(255,255,255,0.2);
-  background: transparent; color: rgba(255,255,255,0.7);
-  font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+  width: 100%;
+  padding: 11px;
+  border-radius: 9px;
+  border: 1.5px dashed var(--border-color);
+  background: transparent;
+  color: var(--primary-mid);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
-.add-cat:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.4); color: #fff; }
+.add-cat:hover { background: var(--primary-light); }
 
 .gen-btn {
-  padding: 16px; border-radius: 12px; border: none;
-  background: var(--blue); color: #fff;
-  font-size: 1rem; font-weight: 700; cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 0 4px 14px rgba(59,130,246,0.4);
-}
-.gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.6); }
-
-/* ─── TRACKER SCREEN ─── */
-#tracker-screen { display: none; flex-direction: column; min-height: 100vh; background: var(--body-bg); }
-
-/* Dashboard (Top Dark Area) */
-.dashboard-area {
-  background: var(--dash-bg);
+  width: 100%;
+  padding: 13px;
+  background: var(--primary-mid);
   color: #fff;
-  padding: 24px 20px 30px;
-  border-bottom: 1px solid #1e293b;
+  border: none;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 12px;
 }
+.gen-btn:active { background: var(--primary-deep); }
 
+/* TRACKER ENGINE LAYOUT */
+#setup-screen { display: block; max-width: 600px; margin: 0 auto; padding: 10px; }
+#tracker-screen { display: none; flex-direction: column; gap: 12px; }
+
+/* Dashboard Headers */
 .t-header-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  max-width: 800px; margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
 }
-.t-header-left { display: flex; align-items: center; gap: 14px; }
+.t-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .t-icon {
-  width: 48px; height: 48px;
-  background: rgba(45,212,191,0.15); color: var(--emerald);
-  border-radius: 12px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: var(--primary-light);
+  color: var(--primary-deep);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
 }
-.t-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
-.t-started { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+.t-title { font-size: 18px; font-weight: 700; color: var(--primary-deep); }
+.t-started { font-size: 12px; color: var(--text-muted); }
 
 .reset-btn {
-  padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8);
-  font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.15s;
+  background: transparent;
+  border: 1.5px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
 }
-.reset-btn:hover { background: rgba(255,255,255,0.1); }
 
-/* Dashboard Panels Grid */
+/* Dashboard Information Layout grid */
 .dash-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  max-width: 800px; margin: 0 auto;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media(min-width: 600px) {
+  .dash-grid { grid-template-columns: 1fr 1fr; }
 }
 
-.dash-box { padding: 20px; background: var(--dash-panel); border-radius: 16px; }
-
-/* Overall & Days Panel */
-.overall-row { display: flex; gap: 24px; align-items: center; }
-.overall-left { display: flex; align-items: center; gap: 16px; }
-.ring-wrap { position: relative; width: 72px; height: 72px; }
+/* Circular ring structure style overrides */
+.overall-row { display: flex; gap: 20px; align-items: center; }
+.overall-left { display: flex; align-items: center; gap: 12px; }
+.ring-wrap { position: relative; width: 64px; height: 64px; }
 .ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ring-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 8; }
-.ring-fill { fill: none; stroke: var(--emerald); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 201; stroke-dashoffset: 201; transition: 0.5s; }
-.ring-lbl { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: #fff; }
+.ring-bg { fill: none; stroke: var(--bg-base); stroke-width: 8; }
+.ring-fill { fill: none; stroke: var(--primary-mid); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 201; stroke-dashoffset: 201; transition: 0.5s; }
+.ring-lbl { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--primary-deep); }
+.o-lbl { font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
 
-.overall-text { display: flex; flex-direction: column; }
-.o-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; letter-spacing: 0.1em; }
+.days-stats { display: flex; flex-direction: column; gap: 8px; border-left: 1px solid var(--border-color); padding-left: 20px; }
+.day-stat { display: flex; align-items: center; gap: 8px; }
+.d-num { font-size: 18px; font-weight: 700; color: var(--primary-mid); }
+.d-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; line-height: 1.2; }
 
-.days-stats { display: flex; flex-direction: column; gap: 16px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 24px; }
-.day-stat { display: flex; align-items: center; gap: 10px; }
-.d-num { font-size: 1.5rem; font-weight: 700; font-family: var(--mono); color: var(--emerald); }
-.d-text { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-weight: 600; text-transform: uppercase; line-height: 1.3; }
-
-/* Progress Bars */
-.prog-title { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 14px; text-transform: uppercase; }
-.prog-list { display: flex; flex-direction: column; gap: 14px; }
-.prog-item { display: grid; grid-template-columns: 80px 1fr 30px; align-items: center; gap: 12px; }
-.p-name { font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.p-bar-wrap { height: 6px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+/* Progress lists and bars metrics */
+.prog-title { font-size: 10px; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+.prog-list { display: flex; flex-direction: column; gap: 10px; }
+.prog-item { display: grid; grid-template-columns: 80px 1fr 35px; align-items: center; gap: 10px; }
+.p-name { font-size: 13px; font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.p-bar-wrap { height: 7px; background: var(--bg-base); border-radius: 4px; overflow: hidden; }
 .p-bar { height: 100%; border-radius: 4px; transition: 0.4s; }
-.p-pct { font-size: 0.85rem; font-family: var(--mono); color: var(--blue); font-weight: 600; text-align: right; }
+.p-pct { font-size: 12px; font-weight: 700; text-align: right; color: var(--primary-deep); }
 
-/* Mini Cal */
-.mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.mc-month { font-size: 0.85rem; font-weight: 700; color: #fff; }
-.mc-nav { display: flex; gap: 4px; }
-.mc-nav button { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; }
+/* Mini Calendar Frame styles */
+.mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.mc-month { font-size: 13px; font-weight: 700; color: var(--primary-deep); }
+.mc-nav button { background: var(--bg-base); border: none; color: var(--text-main); width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 .mc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
-.mc-dow { font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.3); padding-bottom: 4px; }
-.mc-cell { font-size: 0.75rem; font-family: var(--mono); padding: 4px 0; border-radius: 4px; }
+.mc-dow { font-size: 10px; font-weight: 700; color: var(--text-muted); padding-bottom: 2px; }
+.mc-cell { font-size: 11px; padding: 4px 0; border-radius: 4px; font-weight: 600; }
 .mc-cell.empty { background: transparent; }
-.mc-cell.no-plan { color: rgba(255,255,255,0.1); }
-.mc-cell.future { color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); }
-.mc-cell.past { color: var(--emerald); background: rgba(45,212,191,0.1); }
-.mc-cell.today { background: var(--orange); color: #fff; font-weight: 700; box-shadow: 0 0 10px rgba(249,115,22,0.4); }
+.mc-cell.no-plan { color: var(--border-color); }
+.mc-cell.future { color: var(--text-muted); background: #FAFBF9; border: 1px solid var(--border-color); }
+.mc-cell.past { color: var(--primary-mid); background: var(--primary-light); }
+.mc-cell.today { background: var(--accent-green); color: #fff; font-weight: 700; }
 
-/* Sticky Nav Row */
+/* Navigation Pills Frame */
 .nav-row {
-  background: var(--card-bg);
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; gap: 12px;
 }
-.nav-lbl { font-size: 0.8rem; font-weight: 700; color: var(--text-mut); letter-spacing: 0.05em; text-transform: uppercase; }
-.nav-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-.nav-pills::-webkit-scrollbar { height: 0; }
+.nav-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+.nav-pills { display: flex; gap: 6px; overflow-x: auto; }
+.nav-pills::-webkit-scrollbar { display: none; }
 .nav-btn {
-  padding: 6px 14px; border-radius: 8px; border: none;
-  background: #f1f5f9; color: var(--text-mut);
-  font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: var(--mono);
+  padding: 5px 12px; border-radius: 15px; border: 1px solid var(--border-color);
+  background: var(--bg-base); color: var(--text-muted);
+  font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap;
 }
-.nav-btn.active { background: var(--dash-bg); color: var(--emerald); }
+.nav-btn.active { background: var(--primary-deep); color: #fff; border-color: var(--primary-deep); }
 
-/* Main Tracker Area */
-.tracker-content { max-width: 800px; margin: 0 auto; padding: 24px 20px 60px; color: var(--text-main); width: 100%; }
-
-.week-section { margin-bottom: 32px; }
+/* WEEK ROW INTERFACES & CARDS */
+.tracker-content { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
+.week-section { border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; background: #fff; }
 .week-header {
-  background: var(--dash-panel); color: #fff;
-  border-radius: 12px 12px 0 0;
-  padding: 14px 20px;
-  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-mid));
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.wh-title { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-.wh-title span { color: var(--emerald); font-family: var(--mono); font-size: 1.1rem; margin-left: 6px; }
-.wh-pct { color: var(--emerald); font-family: var(--mono); font-weight: 700; font-size: 1rem; }
+.wh-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.wh-title span { color: var(--accent-olive); font-size: 15px; margin-left: 4px; }
+.wh-pct { font-weight: 700; font-size: 14px; color: var(--primary-light); }
 
-.cards-container {
-  background: #e2e8f0; 
-  padding: 1px;
-  border-radius: 0 0 12px 12px;
-  display: flex; flex-direction: column; gap: 1px;
-}
+.cards-container { display: flex; flex-direction: column; }
+.cat-card { padding: 16px; border-bottom: 1px solid var(--border-color); }
+.cat-card:last-child { border-bottom: none; }
 
-.cat-card { background: var(--card-bg); padding: 20px; }
-.cat-card:last-child { border-radius: 0 0 11px 11px; }
-
-.cc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.cc-name { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
-.cc-target { font-size: 0.85rem; color: var(--text-mut); font-weight: 500; }
+.cc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.cc-name { font-size: 15px; font-weight: 700; color: var(--primary-deep); }
+.cc-target { font-size: 12px; color: var(--text-muted); }
 .cc-top-right { display: flex; align-items: center; gap: 8px; }
 
-/* Remaining Days Circle */
+/* Custom Remaining Counter Circle */
 .rem-circle {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: rgba(59,130,246,0.1);
-  color: var(--blue);
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  font-weight: 700;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue-bg); color: var(--blue-badge);
+  font-size: 12px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
-  border: 1px solid rgba(59,130,246,0.3);
-  flex-shrink: 0;
+  border: 1px solid #93C5FD;
 }
-
 .pct-chip {
-  padding: 4px 12px; border-radius: 99px;
-  font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
-  background: #fef08a; color: var(--yellow-text); border: 1px solid #fde047;
+  padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;
+  background: var(--orange-bg); color: var(--orange-accent); border: 1px solid #FDE68A;
 }
-.pct-chip.full { background: var(--done-bg); color: var(--done-fg); border-color: var(--done-border); }
-.pct-chip.zero { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; }
+.pct-chip.full { background: var(--primary-light); color: var(--primary-deep); border-color: var(--accent-olive); }
+.pct-chip.zero { background: var(--bg-base); color: var(--text-muted); border-color: var(--border-color); }
 
-/* The Orange Box Design */
+/* Theme-Matched Orange Box Framework */
 .orange-box {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
-  border: 3px solid var(--orange);
+  border: 2px solid var(--accent-olive);
+  background: var(--bg-base);
   border-radius: 8px;
-  padding: 6px 8px;
-  margin-bottom: 10px;
+  padding: 4px 6px;
+  margin-bottom: 8px;
 }
-.ob-day { text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--text-mut); }
+.ob-day { text-align: center; font-size: 11px; font-weight: 700; color: var(--primary-deep); }
 
-/* Check Buttons */
-.checks-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 8px; }
+/* Unified Circular Study Block Controls */
+.checks-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 4px; }
 .check-btn-wrap { display: flex; justify-content: center; }
 .check-btn {
-  width: 100%; aspect-ratio: 1; max-width: 44px;
-  border-radius: 10px; border: 2px solid #e5e7eb;
+  width: 100%; aspect-ratio: 1; max-width: 40px;
+  border-radius: 50%; border: 1.5px solid var(--border-color);
   background: #fff; color: transparent;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: 0.15s;
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.15s;
   user-select: none;
 }
-.check-btn.done { background: var(--done-bg); border-color: var(--done-border); color: var(--done-fg); }
-.check-btn.blocked { background: #f1f5f9; border-color: #e2e8f0; color: #cbd5e1; cursor: not-allowed; opacity: 0.6; }
-.check-btn:not(.blocked):hover { border-color: var(--emerald); transform: scale(1.05); }
+.check-btn.done { background: var(--primary-mid); border-color: var(--primary-mid); color: #fff; }
+.check-btn.blocked { background: var(--bg-base); border-color: var(--border-color); color: var(--border-color); cursor: not-allowed; opacity: 0.5; }
+.check-btn:not(.blocked):hover { border-color: var(--accent-green); transform: scale(1.05); }
 
-@media (max-width: 640px) {
-  .dash-grid { grid-template-columns: 1fr; }
-  .setup-card { padding: 20px; }
-  .cat-row { grid-template-columns: 1fr 1fr; }
-  .cat-row .cd { grid-column: span 2; }
-  .cat-row .rm-btn { grid-column: span 2; width: 100%; }
-  .orange-box { padding: 4px; gap: 2px; }
-  .checks-row { padding: 0 4px; gap: 2px; }
-  .check-btn { border-width: 1px; font-size: 1rem; border-radius: 6px; }
-}
-
+/* Global System Notification Banner */
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--dash-panel); color: #fff; padding: 12px 24px; border-radius: 8px;
-  font-size: 0.9rem; font-weight: 600; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100;
+  background: var(--primary-deep); color: #fff; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 480px) {
+  .cat-row { grid-template-columns: 1fr; gap: 4px; }
+  .cat-row .rm-btn { width: 100%; height: 36px; }
+  .check-btn { font-size: 11px; }
+}
 </style>
 </head>
 <body>
 
 <div id="setup-screen">
-  <div class="setup-shell">
-    <div class="setup-headline">Build your plan.</div>
-    <div class="setup-sub">Enter your overall study duration and up to 10 categories with custom day targets.</div>
+  <div class="setup-headline">Build your plan.</div>
+  <div class="setup-sub">Enter your overall study duration and up to 10 categories with custom day targets.</div>
 
-    <div class="setup-card">
-      <div class="field-group">
-        <label>Start Date</label>
-        <input type="date" id="start-date">
-      </div>
-
-      <div class="field-group">
-        <label>Overall Duration (Days)</label>
-        <div class="preset-btns" id="duration-presets">
-          <button class="preset-btn" data-days="7">7d</button>
-          <button class="preset-btn" data-days="14">14d</button>
-          <button class="preset-btn" data-days="21">21d</button>
-          <button class="preset-btn" data-days="90">90d</button>
-          <button class="preset-btn active" data-days="custom">Custom</button>
-        </div>
-        <input type="number" id="total-days" min="7" max="365" placeholder="Total overall days...">
-      </div>
-
-      <div class="divider"></div>
-
-      <div>
-        <div class="cat-label-row">
-          <span>Categories</span>
-          <span class="cat-count" id="cat-count">0 / 10</span>
-        </div>
-        <div id="category-list"></div>
-        <button class="add-cat" id="add-cat-btn">＋ Add category</button>
-      </div>
-
-      <button class="gen-btn" onclick="generateTracker()">Generate Tracker →</button>
+  <div class="card">
+    <div class="field-group">
+      <label>Start Date</label>
+      <input type="date" id="start-date">
     </div>
+
+    <div class="field-group">
+      <label>Overall Duration (Days)</label>
+      <div class="preset-btns" id="duration-presets">
+        <button class="preset-btn" data-days="7">7d</button>
+        <button class="preset-btn" data-days="14">14d</button>
+        <button class="preset-btn" data-days="21">21d</button>
+        <button class="preset-btn" data-days="90">90d</button>
+        <button class="preset-btn active" data-days="custom">Custom</button>
+      </div>
+      <input type="number" id="total-days" min="7" max="365" placeholder="Total overall days...">
+    </div>
+
+    <div style="height: 1px; background: var(--border-color); margin: 16px 0;"></div>
+
+    <div>
+      <div class="cat-label-row">
+        <span>Categories</span>
+        <span id="cat-count">0 / 10</span>
+      </div>
+      <div id="category-list"></div>
+      <button class="add-cat" id="add-cat-btn">＋ Add category</button>
+    </div>
+
+    <button class="gen-btn" onclick="generateTracker()">Generate Tracker →</button>
   </div>
 </div>
 
 <div id="tracker-screen">
   
-  <div class="dashboard-area">
+  <div class="card" style="margin-bottom:0;">
     <div class="t-header-top">
       <div class="t-header-left">
-        <div class="t-icon">📋</div>
+        <div class="t-icon">&#127806;</div>
         <div>
           <div class="t-title" id="t-title">7-Day Study Plan</div>
           <div class="t-started" id="t-start-date">Started 16 Jun 2026</div>
@@ -382,7 +438,7 @@ input:focus { border-color: var(--blue); background: rgba(59,130,246,0.1); }
     </div>
 
     <div class="dash-grid">
-      <div class="dash-box">
+      <div style="background: var(--bg-base); padding: 14px; border-radius: 10px;">
         <div class="overall-row">
           <div class="overall-left">
             <div class="ring-wrap">
@@ -396,17 +452,17 @@ input:focus { border-color: var(--blue); background: rgba(59,130,246,0.1); }
           </div>
           <div class="days-stats">
             <div class="day-stat"><span class="d-num" id="d-passed">0</span><span class="d-text">Days<br>Passed</span></div>
-            <div class="day-stat"><span class="d-num" id="d-left">7</span><span class="d-text" style="color:var(--text-mut)">Remaining</span></div>
+            <div class="day-stat"><span class="d-num" id="d-left">7</span><span class="d-text" style="color:var(--text-muted)">Remaining</span></div>
           </div>
         </div>
 
-        <div style="margin-top:24px;">
+        <div style="margin-top:16px;">
           <div class="prog-title">Category Progress</div>
           <div class="prog-list" id="d-cats"></div>
         </div>
       </div>
 
-      <div class="dash-box">
+      <div style="background: var(--bg-base); padding: 14px; border-radius: 10px;">
         <div class="mc-header">
           <div class="mc-month" id="mc-month">June 2026</div>
           <div class="mc-nav">
@@ -414,10 +470,10 @@ input:focus { border-color: var(--blue); background: rgba(59,130,246,0.1); }
             <button id="mc-next">&#8250;</button>
           </div>
         </div>
-        <div class="mc-grid" id="mc-grid" style="margin-bottom:20px;"></div>
+        <div class="mc-grid" id="mc-grid" style="margin-bottom:14px;"></div>
         
         <div class="prog-title">Weekly Breakdown</div>
-        <div class="prog-list" id="d-weeks" style="max-height:110px;overflow-y:auto;padding-right:6px;"></div>
+        <div class="prog-list" id="d-weeks" style="max-height:100px; overflow-y:auto; padding-right:4px;"></div>
       </div>
     </div>
   </div>
@@ -435,8 +491,6 @@ input:focus { border-color: var(--blue); background: rgba(59,130,246,0.1); }
 
 <script>
 let data = null;
-
-// ── SETUP UI ──────────────────────────────────────────────
 const maxCats = 10;
 const catList = document.getElementById('category-list');
 
@@ -481,11 +535,11 @@ function updateCatCount() {
   document.getElementById('add-cat-btn').style.display = n >= maxCats ? 'none' : 'block';
 }
 
+// System Presets Configuration Matching Main Framework Models
 addCat('Botany','Chapter 1', 7);
 addCat('Agronomy','Chap 2', 14);
-addCat('Soil','Chap 3', 7);
+addCat('Soil Science','Chap 3', 7);
 
-// ── GENERATE ─────────────────────────────────────────────
 function generateTracker() {
   const startVal = document.getElementById('start-date').value;
   const totalDays = parseInt(document.getElementById('total-days').value);
@@ -500,12 +554,10 @@ function generateTracker() {
     const t = r.querySelector('.ct').value.trim();
     const d = parseInt(r.querySelector('.cd').value);
     
-    // Check if category days exceed overall duration
     if (n && !isNaN(d) && d > totalDays) {
       exceedError = true;
     }
     
-    // Assign custom target days; fallback to overall totalDays if left blank
     if (n) cats.push({ name: n, target: t || '—', targetDays: isNaN(d) || d < 1 ? totalDays : d });
   });
 
@@ -522,9 +574,8 @@ function generateTracker() {
   save(); render();
 }
 
-// ── RENDER ───────────────────────────────────────────────
 let calViewDate = null;
-const colors = ['#2dd4bf', '#3b82f6', '#f97316', '#a855f7', '#ec4899', '#eab308'];
+const colors = ['#3B6D11', '#76B82A', '#97C459', '#1E3D08', '#556B2F', '#8FBC8F'];
 
 function getCatProgress(catIdx) {
   if (!data) return { checked: 0, target: 1, pct: 0 };
@@ -637,7 +688,6 @@ function updateCategoryUI(catIdx) {
   const prog = getCatProgress(catIdx);
   const chipClass = prog.pct >= 100 ? 'full' : prog.pct > 0 ? '' : 'zero';
 
-  // Update chips and buttons for this category across all weeks
   data.weeks.forEach(w => {
     const chip = document.getElementById(`chip-w${w.wk}-cat${catIdx}`);
     if (chip) {
@@ -666,18 +716,14 @@ function toggle(wk, ri, di, catIdx) {
   const isDone = w.rows[ri].days[di];
   const progBefore = getCatProgress(catIdx);
   
-  // Prevent selecting new days if target is already reached
   if (!isDone && progBefore.checked >= progBefore.target) {
     toast(`Target of ${progBefore.target} days reached for this category!`);
     return;
   }
 
   w.rows[ri].days[di] = !isDone;
-  
-  // Update category-specific UI (chips & blocks)
   updateCategoryUI(catIdx);
 
-  // Update week header %
   const wPct = calcPct(w.rows.flatMap(r => r.days));
   document.getElementById(`wh-pct-${wk}`).textContent = `${wPct}%`;
 
@@ -686,37 +732,30 @@ function toggle(wk, ri, di, catIdx) {
 }
 
 function updateDash() {
-  // --- DASHBOARD CALENDAR TIME TRACKING ---
   const sd = new Date(data.startDate); sd.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
   
-  // Count how many real days have passed based on real-world time
   const elapsed = Math.max(0, Math.min(data.totalDays, Math.floor((today - sd) / 86400000)));
   
   document.getElementById('d-passed').textContent = elapsed;
-  // Dashboard overall remaining = Total overall days minus days passed in real life
   document.getElementById('d-left').textContent = Math.max(0, data.totalDays - elapsed);
 
-  // --- CATEGORY CUSTOM TARGET TRACKING (Checkmarks based) ---
   let totalTargets = 0;
   let allCompleted = 0;
   const catDiv = document.getElementById('d-cats');
   catDiv.innerHTML = '';
 
   data.categories.forEach((cat, idx) => {
-    // Check how many days the user actually clicked the checkmark for this specific category
     const completedDaysForCat = data.weeks.flatMap(w => w.rows.filter(r => r.catIdx === idx).flatMap(r => r.days)).filter(Boolean).length;
     
     totalTargets += cat.targetDays;
     allCompleted += completedDaysForCat;
 
-    // Update ALL the small circles associated with this category to show: Custom Target - Completed Checks
     const remainingCatDays = Math.max(0, cat.targetDays - completedDaysForCat);
     document.querySelectorAll(`.rem-circle-cat-${idx}`).forEach(el => {
       el.textContent = remainingCatDays;
     });
 
-    // Render Progress Bars for each category
     const p = Math.min(100, Math.round((completedDaysForCat / cat.targetDays) * 100)) || 0; 
     const col = colors[idx % colors.length];
     
@@ -728,21 +767,19 @@ function updateDash() {
       </div>`;
   });
 
-  // Update Overall Ring based on custom target totals vs completed checks
   const globalPct = Math.min(100, Math.round((allCompleted / totalTargets) * 100)) || 0;
   document.getElementById('d-overall').textContent = globalPct + '%';
   const arc = document.getElementById('ring-arc');
   arc.style.strokeDashoffset = 201 - (globalPct / 100) * 201;
 
-  // Render Week Progress Bars
   const wDiv = document.getElementById('d-weeks');
   wDiv.innerHTML = '';
   data.weeks.forEach((w) => {
     const p = calcPct(w.rows.flatMap(r => r.days));
     wDiv.innerHTML += `
       <div class="prog-item">
-        <span class="p-name" style="font-family:var(--mono)">W${w.wk}</span>
-        <div class="p-bar-wrap"><div class="p-bar" style="width:${p}%; background:var(--blue)"></div></div>
+        <span class="p-name">Week ${w.wk}</span>
+        <div class="p-bar-wrap"><div class="p-bar" style="width:${p}%; background:var(--primary-mid)"></div></div>
         <span class="p-pct">${p}%</span>
       </div>`;
   });
@@ -750,7 +787,6 @@ function updateDash() {
   buildMiniCal();
 }
 
-// ── CALENDAR ─────────────────────────────────────────────
 document.getElementById('mc-prev').onclick = () => { calViewDate.setMonth(calViewDate.getMonth() - 1); buildMiniCal(); };
 document.getElementById('mc-next').onclick = () => { calViewDate.setMonth(calViewDate.getMonth() + 1); buildMiniCal(); };
 
@@ -787,7 +823,6 @@ function buildMiniCal() {
   }
 }
 
-// ── UTILS ────────────────────────────────────────────────
 function calcPct(arr) { return arr.length ? Math.round(arr.filter(Boolean).length / arr.length * 100) : 0; }
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -799,10 +834,9 @@ function resetTracker() {
   if (!confirm('Clear all progress?')) return;
   localStorage.removeItem('strack4'); data = null;
   document.getElementById('tracker-screen').style.display = 'none';
-  document.getElementById('setup-screen').style.display = 'flex';
+  document.getElementById('setup-screen').style.display = 'block';
 }
 
-// ── INIT ─────────────────────────────────────────────────
 try {
   const raw = localStorage.getItem('strack4'); 
   if (raw) { data = JSON.parse(raw); render(); }
