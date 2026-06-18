@@ -79,6 +79,11 @@ select.f-input{cursor:pointer;}
 .success-info{background:#F0FDF4;border:1px solid #86EFAC;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#14532D;text-align:left;line-height:1.7;}
 .go-portal{display:inline-block;background:#3B6D11;color:#fff;padding:13px 28px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;-webkit-tap-highlight-color:transparent;}
 
+/* SPAM NOTICE */
+.spam-notice{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:14px 16px;margin-top:18px;font-size:13px;color:#92400E;line-height:1.6;display:flex;gap:10px;align-items:flex-start;}
+.spam-notice .spam-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.spam-notice strong{font-weight:700;display:block;margin-bottom:2px;color:#78350F;}
+
 /* FOOTER */
 .footer{text-align:center;padding:1.5rem 1rem;font-size:12px;color:#9B9B96;}
 .footer a{color:#3B6D11;text-decoration:none;}
@@ -179,7 +184,16 @@ select.f-input{cursor:pointer;}
     <div class="success-title">Registration Submitted!</div>
     <div class="success-sub">Your result has been submitted successfully. Please wait for admin verification. You will receive an email once approved.</div>
     <div class="success-info" id="success-info"></div>
-    <a href="index.html" class="go-portal">&#127806; Go to Portal</a>
+
+    <div class="spam-notice">
+      <div class="spam-icon">&#128235;</div>
+      <div>
+        <strong>&#9888; Check your Spam / Junk folder!</strong>
+        The confirmation email may land in your <strong>Spam</strong> or <strong>Junk</strong> box. Please check there and mark it as "Not Spam" so future emails reach your inbox.
+      </div>
+    </div>
+
+    <a href="index.html" class="go-portal" style="margin-top:20px;">&#127806; Go to Portal</a>
   </div>
 
 </div>
