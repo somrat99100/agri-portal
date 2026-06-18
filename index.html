@@ -167,6 +167,52 @@ input:focus{border-color:#3B6D11;background:#fff;}
 .bt-row:last-child{border-bottom:none;}
 .same-bdg{font-size:10px;background:#E8F5E9;color:#2E7D32;border-radius:8px;padding:2px 6px;white-space:nowrap;}
 
+/* MARQUEE */
+.marquee-bar{background:#1E3D08;color:#C0DD97;padding:7px 0;overflow:hidden;white-space:nowrap;font-size:12.5px;font-weight:500;letter-spacing:.2px;border-bottom:1px solid #2E5E0E;}
+.marquee-track{display:inline-block;animation:marquee-scroll 28s linear infinite;}
+.marquee-track:hover{animation-play-state:paused;}
+@keyframes marquee-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.marquee-item{display:inline-block;padding:0 32px;}
+.marquee-dot{color:#76B82A;margin:0 4px;}
+
+/* RESOURCES TAB */
+.res-banner{background:linear-gradient(135deg,#1E3D08 0%,#3B6D11 60%,#639922 100%);border-radius:16px;padding:28px 20px 24px;text-align:center;margin-bottom:1rem;}
+.res-banner-leaf{font-size:40px;margin-bottom:10px;line-height:1;}
+.res-banner-title{font-size:20px;font-weight:800;color:#EAF3DE;margin-bottom:8px;line-height:1.25;}
+.res-banner-sub{font-size:13px;color:#C0DD97;line-height:1.6;margin-bottom:18px;max-width:320px;margin-left:auto;margin-right:auto;}
+.res-banner-btn{display:inline-block;background:#76B82A;color:#fff;padding:11px 22px;border-radius:24px;font-size:13px;font-weight:700;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+.res-banner-btn:active{background:#5A8F1F;}
+
+.res-updates-card{}
+.res-upd-head{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;border-bottom:1px solid #F0F0EC;}
+.res-live-dot{width:8px;height:8px;border-radius:50%;background:#E53E3E;flex-shrink:0;animation:blink 1.2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.res-live-lbl{font-size:11px;font-weight:700;color:#E53E3E;letter-spacing:1.5px;}
+.res-upd-list{}
+.res-upd-item{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border-bottom:1px solid #F0F0EC;}
+.res-upd-item:last-child{border-bottom:none;}
+.res-upd-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.res-upd-title{font-size:13px;font-weight:700;color:#1A1A18;margin-bottom:3px;}
+.res-upd-desc{font-size:12px;color:#6B6B66;line-height:1.5;}
+
+.res-invite-card{padding:20px;}
+.res-invite-icon{font-size:36px;text-align:center;margin-bottom:10px;}
+.res-invite-title{font-size:16px;font-weight:800;color:#1A1A18;text-align:center;margin-bottom:8px;}
+.res-invite-desc{font-size:13px;color:#6B6B66;line-height:1.6;text-align:center;margin-bottom:16px;}
+.res-invite-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.res-step{display:flex;align-items:center;gap:10px;font-size:13px;color:#1A1A18;}
+.res-step-num{width:24px;height:24px;border-radius:50%;background:#3B6D11;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.res-link-row{display:flex;gap:8px;align-items:center;}
+.res-link-box{flex:1;background:#F4F5F0;border:1px solid #E0E0DA;border-radius:9px;padding:10px 12px;font-size:12px;color:#3B6D11;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.res-copy-btn{background:#3B6D11;color:#fff;border:none;border-radius:9px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;-webkit-tap-highlight-color:transparent;flex-shrink:0;}
+.res-copy-btn:active{background:#2E5E0E;}
+
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;}
+.res-feat-card{background:#fff;border:1px solid #E0E0DA;border-radius:14px;padding:18px 12px;text-align:center;}
+.res-feat-icon{font-size:30px;margin-bottom:8px;}
+.res-feat-name{font-size:13px;font-weight:700;color:#1A1A18;margin-bottom:6px;}
+.res-feat-soon{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;color:#9B9B96;background:#F4F5F0;border-radius:20px;padding:3px 10px;}
+
 /* FOOTER */
 .footer{text-align:center;padding:1.5rem 1rem;font-size:12px;color:#9B9B96;border-top:1px solid #E0E0DA;background:#fff;margin-top:2rem;}
 .footer a{color:#3B6D11;text-decoration:none;}
@@ -190,6 +236,18 @@ input:focus{border-color:#3B6D11;background:#fff;}
 
 <div id="app" style="display:none">
 
+  <!-- MARQUEE BANNER -->
+  <div class="marquee-bar">
+    <div class="marquee-track" id="marquee-track">
+      <span class="marquee-item">&#127807; The more students register, the more accurate and complete our rankings become — share this portal with your friends and tell them to register now!</span><span class="marquee-dot">&#9670;</span>
+      <span class="marquee-item">&#128218; Get access to Lecture Slides, Notes, Books PDF &amp; Daily Newspaper — invite your friends to register and unlock the best resources together!</span><span class="marquee-dot">&#9670;</span>
+      <span class="marquee-item">&#128101; A bigger community = a better result picture for everyone — share with your classmates and help build the most complete department ranking!</span><span class="marquee-dot">&#9670;</span>
+      <span class="marquee-item">&#127807; The more students register, the more accurate and complete our rankings become — share this portal with your friends and tell them to register now!</span><span class="marquee-dot">&#9670;</span>
+      <span class="marquee-item">&#128218; Get access to Lecture Slides, Notes, Books PDF &amp; Daily Newspaper — invite your friends to register and unlock the best resources together!</span><span class="marquee-dot">&#9670;</span>
+      <span class="marquee-item">&#128101; A bigger community = a better result picture for everyone — share with your classmates and help build the most complete department ranking!</span><span class="marquee-dot">&#9670;</span>
+    </div>
+  </div>
+
   <div class="reg-bar">
     <span>&#128203; New student? Register your result for ranking</span>
     <a href="register.html">Register Now &#8594;</a>
@@ -207,6 +265,7 @@ input:focus{border-color:#3B6D11;background:#fff;}
   <nav class="tab-nav">
     <button class="tab-btn active" id="nav-dashboard" onclick="showTab(this,'dashboard')">Dashboard</button>
     <button class="tab-btn"        id="nav-planner"   onclick="showTab(this,'planner')">&#128197; Study Planner</button>
+    <button class="tab-btn"        id="nav-resources" onclick="showTab(this,'resources')">&#128218; Resources</button>
     <button class="tab-btn locked" id="nav-top20"     onclick="tryLockedTab(this,'top20')">&#128274; Top 20</button>
     <button class="tab-btn locked" id="nav-search"    onclick="tryLockedTab(this,'search')">&#128274; Check Your Position</button>
     <button class="tab-btn locked" id="nav-batches"   onclick="tryLockedTab(this,'batches')">&#128274; Top 10 in Each Batch</button>
@@ -243,6 +302,84 @@ input:focus{border-color:#3B6D11;background:#fff;}
       <p class="sec-lbl">Personal Study Tracker &amp; Schedule</p>
       <div class="planner-wrapper-premium">
         <iframe id="planner-iframe-core" src="" class="planner-iframe-premium"></iframe>
+      </div>
+    </div>
+
+    <div id="tab-resources" class="tab-view">
+      <p class="sec-lbl">Resources &amp; Updates</p>
+
+      <!-- Hero Banner -->
+      <div class="res-banner">
+        <div class="res-banner-leaf">&#127807;</div>
+        <div class="res-banner-title">Your Academic Hub is Coming!</div>
+        <div class="res-banner-sub">Lecture slides, notes, books PDF, daily newspaper — all in one place. The more students join, the better it gets.</div>
+        <a href="register.html" class="res-banner-btn">&#128279; Register &amp; Invite Friends</a>
+      </div>
+
+      <!-- Live Updates -->
+      <p class="sec-lbl" style="margin-top:1.25rem">What's Happening</p>
+      <div class="card res-updates-card">
+        <div class="res-upd-head">
+          <span class="res-live-dot"></span>
+          <span class="res-live-lbl">LIVE UPDATES</span>
+        </div>
+        <div class="res-upd-list">
+          <div class="res-upd-item">
+            <div class="res-upd-icon">&#128218;</div>
+            <div class="res-upd-txt">
+              <div class="res-upd-title">Resource Portal Launching Soon</div>
+              <div class="res-upd-desc">Slides, notes, books PDF &amp; daily newspaper will be available here once enough students join.</div>
+            </div>
+          </div>
+          <div class="res-upd-item">
+            <div class="res-upd-icon">&#128240;</div>
+            <div class="res-upd-txt">
+              <div class="res-upd-title">Daily Newspaper Access</div>
+              <div class="res-upd-desc">Stay updated with daily agricultural &amp; national news — coming for all registered students.</div>
+            </div>
+          </div>
+          <div class="res-upd-item">
+            <div class="res-upd-icon">&#128196;</div>
+            <div class="res-upd-txt">
+              <div class="res-upd-title">Lecture Slides &amp; Notes</div>
+              <div class="res-upd-desc">Course-wise organized study materials contributed by your own department peers.</div>
+            </div>
+          </div>
+          <div class="res-upd-item">
+            <div class="res-upd-icon">&#128217;</div>
+            <div class="res-upd-txt">
+              <div class="res-upd-title">Books PDF Library</div>
+              <div class="res-upd-desc">Reference books and e-books for your semester — all downloadable, all free.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invite Card -->
+      <p class="sec-lbl" style="margin-top:1.25rem">Help Unlock These Features</p>
+      <div class="card res-invite-card">
+        <div class="res-invite-icon">&#128101;</div>
+        <div class="res-invite-title">More Students = Better Resources</div>
+        <div class="res-invite-desc">To make this portal truly useful for everyone, we need all students to register their results. Share the registration link with your friends and batchmates — the more who join, the richer the community resources become.</div>
+        <div class="res-invite-steps">
+          <div class="res-step"><span class="res-step-num">1</span> Copy the link below</div>
+          <div class="res-step"><span class="res-step-num">2</span> Share on WhatsApp / Messenger</div>
+          <div class="res-step"><span class="res-step-num">3</span> Ask friends to register their result</div>
+        </div>
+        <div class="res-link-row">
+          <div class="res-link-box" id="res-link-text">register.html</div>
+          <button class="res-copy-btn" onclick="resShareLink()">&#128279; Share</button>
+        </div>
+        <div id="res-copy-msg" style="font-size:12px;color:#3B6D11;margin-top:8px;text-align:center;display:none;">&#10003; Link copied to clipboard!</div>
+      </div>
+
+      <!-- Coming Soon Grid -->
+      <p class="sec-lbl" style="margin-top:1.25rem">Coming Soon</p>
+      <div class="res-grid">
+        <div class="res-feat-card"><div class="res-feat-icon">&#128196;</div><div class="res-feat-name">Lecture Slides</div><div class="res-feat-soon">COMING SOON</div></div>
+        <div class="res-feat-card"><div class="res-feat-icon">&#128221;</div><div class="res-feat-name">Notes</div><div class="res-feat-soon">COMING SOON</div></div>
+        <div class="res-feat-card"><div class="res-feat-icon">&#128217;</div><div class="res-feat-name">Books PDF</div><div class="res-feat-soon">COMING SOON</div></div>
+        <div class="res-feat-card"><div class="res-feat-icon">&#128240;</div><div class="res-feat-name">Daily Newspaper</div><div class="res-feat-soon">COMING SOON</div></div>
       </div>
     </div>
 
@@ -453,23 +590,40 @@ function lockAll() {
 function renderAll() {
   document.getElementById('h-sem').textContent  = DATA.semester.toUpperCase();
   document.getElementById('h-dept').textContent = DATA.deptName;
-  renderStats(DATA.stats);
+
+  // Compute top batch by average CGPA from batchTops
+  var batchTops = DATA.batchTops;
+  var batches = Object.keys(batchTops);
+  var bestBatch = DATA.stats.topBatch;
+  var bestAvg   = -1;
+  for (var i = 0; i < batches.length; i++) {
+    var students = batchTops[batches[i]];
+    if (!students || students.length === 0) continue;
+    var sum = 0;
+    for (var j = 0; j < students.length; j++) sum += parseFloat(students[j].cgpa) || 0;
+    var avg = sum / students.length;
+    if (avg > bestAvg) { bestAvg = avg; bestBatch = batches[i]; }
+  }
+  var topBatchDisplay = 'Batch ' + bestBatch + (bestAvg > 0 ? ' (' + bestAvg.toFixed(2) + ')' : '');
+
+  renderStats(DATA.stats, topBatchDisplay);
   renderDist(DATA.dist);
   renderTop20(DATA.top20, DATA.stats.approved);
   renderBatches(DATA.batchTops);
 }
 
 // STATS
-function renderStats(s) {
+function renderStats(s, topBatchDisplay) {
+  var topBatchVal = topBatchDisplay || ('Batch ' + s.topBatch);
   var items = [
-    {l:'Total Registered',     v:s.registered,        c:''},
-    {l:'Approved Students',    v:s.approved,          c:'g'},
-    {l:'CGPA to Enter Top 20', v:s.cgpaToTop20,       c:'a'},
-    {l:'Active Batches',       v:s.batches,           c:'b'},
-    {l:'Highest CGPA',         v:s.highCGPA,          c:'g'},
-    {l:'Dept. Average CGPA',   v:s.avgCGPA,           c:''},
-    {l:'Top Ranked Batch',     v:'Batch '+s.topBatch, c:'g sm'},
-    {l:'Last Updated',         v:s.lastUpdated,       c:'sm'},
+    {l:'Total Registered',     v:s.registered,   c:''},
+    {l:'Approved Students',    v:s.approved,      c:'g'},
+    {l:'CGPA to Enter Top 20', v:s.cgpaToTop20,   c:'a'},
+    {l:'Active Batches',       v:s.batches,       c:'b'},
+    {l:'Highest CGPA',         v:s.highCGPA,      c:'g'},
+    {l:'Dept. Average CGPA',   v:s.avgCGPA,       c:''},
+    {l:'Top Ranked Batch',     v:topBatchVal,     c:'g sm'},
+    {l:'Last Updated',         v:s.lastUpdated,   c:'sm'},
   ];
   var h = '';
   for (var i = 0; i < items.length; i++) {
@@ -627,6 +781,24 @@ function medal(r) {
 
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function resShareLink() {
+  var base = window.location.href.replace(/\/[^\/]*$/, '/') || window.location.origin + '/';
+  var url  = base + 'register.html';
+  document.getElementById('res-link-text').textContent = url;
+  var msg = '🌾 Join our Agriculture Department Ranking Portal!\n\nRegister your result here and get access to Lecture Slides, Notes, Books PDF & Daily Newspaper:\n' + url;
+  if (navigator.share) {
+    navigator.share({ title: 'Agriculture Portal — Register', text: msg, url: url }).catch(function(){});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      var el = document.getElementById('res-copy-msg');
+      el.style.display = 'block';
+      setTimeout(function(){ el.style.display = 'none'; }, 2500);
+    });
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  }
 }
 
 // Enter key support
