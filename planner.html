@@ -377,6 +377,98 @@ input:focus {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* Live Users Bar */
+.live-users-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1E3D08;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border: 1.5px solid #3B6D11;
+}
+.live-dot-wrap {
+  position: relative;
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+}
+.live-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #76B82A;
+  position: absolute; inset: 0;
+  animation: live-pulse 1.8s ease-out infinite;
+}
+.live-dot-ring {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #76B82A;
+  position: absolute; inset: 0;
+  animation: live-ring 1.8s ease-out infinite;
+  opacity: 0;
+}
+@keyframes live-pulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(0.85); opacity: 0.8; }
+}
+@keyframes live-ring {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.live-users-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(118,184,42,0.18);
+  border: 1px solid rgba(118,184,42,0.4);
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #97C459;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-bottom: 3px;
+}
+.live-users-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #97C459;
+  opacity: 0.85;
+}
+.live-users-count-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(118,184,42,0.15);
+  border: 1.5px solid rgba(118,184,42,0.45);
+  border-radius: 12px;
+  padding: 6px 16px;
+  min-width: 60px;
+}
+.live-users-count {
+  font-size: 34px;
+  font-weight: 800;
+  color: #C8E89A;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+.live-users-unit {
+  font-size: 10px;
+  font-weight: 600;
+  color: #76B82A;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
 @media (max-width: 480px) {
   .cat-row { grid-template-columns: 1fr; gap: 4px; }
   .cat-row .rm-btn { width: 100%; height: 36px; }
@@ -426,6 +518,20 @@ input:focus {
 <div id="tracker-screen">
   
   <div class="card" style="margin-bottom:0;">
+    <div class="live-users-bar" id="live-users-bar">
+      <div class="live-dot-wrap">
+        <div class="live-dot"></div>
+        <div class="live-dot-ring"></div>
+      </div>
+      <div class="live-users-info">
+        <div class="live-badge">&#9679; Live</div>
+        <div class="live-users-text">Students using planner right now</div>
+      </div>
+      <div class="live-users-count-wrap">
+        <div class="live-users-count" id="live-users-count">—</div>
+        <div class="live-users-unit">online</div>
+      </div>
+    </div>
     <div class="t-header-top">
       <div class="t-header-left">
         <div class="t-icon">&#127806;</div>
@@ -837,10 +943,74 @@ function resetTracker() {
   document.getElementById('setup-screen').style.display = 'block';
 }
 
+
+// ── LIVE USER COUNT ──────────────────────────────────────────────
+(function() {
+  var MIN_COUNT = 5;
+  var SESSION_KEY = 'planner_session_' + Math.random().toString(36).slice(2);
+  var STORAGE_KEY = 'planner_active_sessions';
+  var HEARTBEAT_MS = 15000;
+  var EXPIRE_MS    = 45000;
+
+  function getNow() { return Date.now(); }
+
+  async function writePing() {
+    try {
+      var raw = null;
+      try { raw = await window.storage.get(STORAGE_KEY); } catch(e) {}
+      var sessions = raw ? JSON.parse(raw.value) : {};
+      sessions[SESSION_KEY] = getNow();
+      var cutoff = getNow() - EXPIRE_MS;
+      Object.keys(sessions).forEach(function(k) {
+        if (sessions[k] < cutoff) delete sessions[k];
+      });
+      await window.storage.set(STORAGE_KEY, JSON.stringify(sessions));
+      return Object.keys(sessions).length;
+    } catch(e) { return 0; }
+  }
+
+  async function removeSelf() {
+    try {
+      var raw = await window.storage.get(STORAGE_KEY);
+      var sessions = raw ? JSON.parse(raw.value) : {};
+      delete sessions[SESSION_KEY];
+      await window.storage.set(STORAGE_KEY, JSON.stringify(sessions));
+    } catch(e) {}
+  }
+
+  async function tick() {
+    var count = await writePing();
+    var display = Math.max(MIN_COUNT, count);
+    var el = document.getElementById('live-users-count');
+    if (el) el.textContent = display;
+  }
+
+  var _tickInterval = null;
+  function startLive() {
+    if (_tickInterval) return;
+    tick();
+    _tickInterval = setInterval(tick, HEARTBEAT_MS);
+  }
+
+  var _origRender = render;
+  render = function() {
+    _origRender.apply(this, arguments);
+    startLive();
+  };
+
+  window.addEventListener('beforeunload', removeSelf);
+
+  if (document.getElementById('tracker-screen') &&
+      document.getElementById('tracker-screen').style.display !== 'none') {
+    startLive();
+  }
+})();
+
 try {
   const raw = localStorage.getItem('strack4'); 
   if (raw) { data = JSON.parse(raw); render(); }
 } catch {}
+
 </script>
 </body>
 </html>
