@@ -1,63 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Unavailable</title>
-    
-    <style>
-        /* General body styling for centering the content */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f8f9fa;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriStudent BD — Temporarily Unavailable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --moss-900:#1F2E22;
+    --moss-700:#2D4A35;
+    --moss-600:#3C5C44;
+    --leaf-500:#6B9B5E;
+    --terracotta-500:#B5651D;
+    --terracotta-400:#C97D3C;
+    --paper-50:#FAF8F2;
+    --line:#DCD5C3;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:2rem 1.25rem;
+    background:var(--paper-50);
+    font-family:'Work Sans', -apple-system, sans-serif;
+    color:var(--moss-900);
+  }
+  .wrap{
+    max-width:480px;
+    text-align:center;
+    opacity:0;
+    transform:translateY(10px);
+    animation:rise .7s ease forwards;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .wrap{ animation:none; opacity:1; transform:none; }
+  }
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
 
-        /* Heading style */
-        h1 {
-            color: #d9534f;
-            margin-bottom: 10px;
-        }
+  .sprout{ width:34px; height:34px; margin:0 auto 1.1rem; display:block; color:var(--leaf-500); }
 
-        /* Paragraph text style */
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #555;
-        }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--moss-600);
+    margin:0 0 1.6rem;
+  }
 
-        /* Button styling */
-        .visit-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+  h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:1.9rem;
+    line-height:1.3;
+    color:var(--moss-900);
+    margin:0 0 1.5rem;
+  }
 
-        /* Button hover effect */
-        .visit-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  .rule{
+    width:48px;
+    height:1.5px;
+    background:var(--line);
+    margin:0 auto 1.5rem;
+  }
+
+  .sub{
+    font-size:.98rem;
+    color:var(--moss-600);
+    margin:0 0 1.4rem;
+  }
+
+  .visit-btn{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:.85rem;
+    letter-spacing:.12em;
+    text-decoration:none;
+    text-transform:uppercase;
+    color:var(--paper-50);
+    background:var(--terracotta-500);
+    padding:.85rem 2.4rem;
+    border-radius:8px;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .visit-btn:hover{ background:var(--terracotta-400); }
+  .visit-btn:active{ transform:translateY(1px); }
+  .visit-btn:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(181,101,29,.3), 0 0 0 1.5px var(--moss-700);
+  }
+</style>
 </head>
 <body>
+  <main class="wrap">
+    <svg class="sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 21V11"/>
+      <path d="M12 11C12 6.5 8.5 4 4 4C4 8.5 7.5 11 12 11Z"/>
+      <path d="M12 11C12 7.5 14.8 5 18.5 5C18.5 8.8 15.8 11 12 11Z"/>
+    </svg>
 
-    <h1>This website is not working at this moment.</h1>
-    <p>Visit the best website at:</p>
-    <a href="https://somrat99100.github.io/agristudent-bd/index.html" class="visit-btn">VISIT</a>
-
+    <p class="eyebrow">AgriStudent BD</p>
+    <h1>This website is not working<br>at this moment.</h1>
+    <div class="rule"></div>
+    <p class="sub">Visit the best website at</p>
+    <a class="visit-btn" href="https://somrat99100.github.io/agristudent-bd/index.html">Visit</a>
+  </main>
 </body>
 </html>
